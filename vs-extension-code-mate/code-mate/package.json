@@ -1,0 +1,200 @@
+{
+  "name": "code-mate",
+  "displayName": "Code Mate",
+  "description": "An agentic VS Code extension powered by local LLMs — debug, generate, explain, review, and refactor code with AI agents",
+  "version": "1.0.0",
+  "publisher": "code-mate",
+  "engines": {
+    "vscode": "^1.85.0"
+  },
+  "categories": [
+    "Programming Languages",
+    "Machine Learning",
+    "Other"
+  ],
+  "keywords": [
+    "ai",
+    "llm",
+    "ollama",
+    "llama",
+    "code assistant",
+    "debug",
+    "code generation",
+    "code review"
+  ],
+  "activationEvents": [
+    "onStartupFinished"
+  ],
+  "main": "./dist/extension.js",
+  "icon": "resources/icon.png",
+  "contributes": {
+    "commands": [
+      {
+        "command": "codeMate.chat",
+        "title": "Code Mate: Open Chat",
+        "icon": "$(comment-discussion)"
+      },
+      {
+        "command": "codeMate.explain",
+        "title": "Code Mate: Explain Code",
+        "icon": "$(search)"
+      },
+      {
+        "command": "codeMate.debug",
+        "title": "Code Mate: Debug Code",
+        "icon": "$(bug)"
+      },
+      {
+        "command": "codeMate.generate",
+        "title": "Code Mate: Generate Code",
+        "icon": "$(sparkle)"
+      },
+      {
+        "command": "codeMate.review",
+        "title": "Code Mate: Review Code",
+        "icon": "$(checklist)"
+      },
+      {
+        "command": "codeMate.refactor",
+        "title": "Code Mate: Refactor Code",
+        "icon": "$(replace-all)"
+      },
+      {
+        "command": "codeMate.selectModel",
+        "title": "Code Mate: Select Model"
+      }
+    ],
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "code-mate",
+          "title": "Code Mate",
+          "icon": "resources/icon.svg"
+        }
+      ]
+    },
+    "views": {
+      "code-mate": [
+        {
+          "type": "webview",
+          "id": "codeMate.chatView",
+          "name": "Chat"
+        }
+      ]
+    },
+    "menus": {
+      "editor/context": [
+        {
+          "submenu": "codeMate.submenu",
+          "group": "codeMate"
+        }
+      ],
+      "codeMate.submenu": [
+        {
+          "command": "codeMate.explain",
+          "group": "1_agents"
+        },
+        {
+          "command": "codeMate.debug",
+          "group": "1_agents"
+        },
+        {
+          "command": "codeMate.generate",
+          "group": "1_agents"
+        },
+        {
+          "command": "codeMate.review",
+          "group": "2_analysis"
+        },
+        {
+          "command": "codeMate.refactor",
+          "group": "2_analysis"
+        }
+      ]
+    },
+    "submenus": [
+      {
+        "id": "codeMate.submenu",
+        "label": "Code Mate"
+      }
+    ],
+    "keybindings": [
+      {
+        "command": "codeMate.chat",
+        "key": "ctrl+shift+m",
+        "mac": "cmd+shift+m"
+      },
+      {
+        "command": "codeMate.explain",
+        "key": "ctrl+shift+e",
+        "mac": "cmd+shift+e",
+        "when": "editorTextFocus"
+      },
+      {
+        "command": "codeMate.debug",
+        "key": "ctrl+shift+b",
+        "mac": "cmd+shift+b",
+        "when": "editorTextFocus"
+      },
+      {
+        "command": "codeMate.generate",
+        "key": "ctrl+shift+g",
+        "mac": "cmd+shift+g",
+        "when": "editorTextFocus"
+      }
+    ],
+    "configuration": {
+      "title": "Code Mate",
+      "properties": {
+        "codeMate.ollamaUrl": {
+          "type": "string",
+          "default": "http://localhost:11434",
+          "description": "URL of your Ollama instance"
+        },
+        "codeMate.model": {
+          "type": "string",
+          "default": "llama3.2",
+          "description": "Ollama model to use for code generation"
+        },
+        "codeMate.temperature": {
+          "type": "number",
+          "default": 0.3,
+          "minimum": 0,
+          "maximum": 2,
+          "description": "Model temperature (lower = more deterministic)"
+        },
+        "codeMate.maxTokens": {
+          "type": "number",
+          "default": 4096,
+          "minimum": 256,
+          "maximum": 32768,
+          "description": "Maximum tokens in model response"
+        }
+      }
+    }
+  },
+  "scripts": {
+    "build": "webpack --mode production",
+    "watch": "webpack --watch",
+    "package": "vsce package",
+    "compile-tests": "tsc -p . --outDir out",
+    "watch-tests": "tsc -p . -w --outDir out",
+    "pretest": "npm run compile-tests && npm run build && npm run lint",
+    "lint": "eslint src",
+    "test": "vscode-test"
+  },
+  "devDependencies": {
+    "@types/vscode": "^1.85.0",
+    "@types/mocha": "^10.0.10",
+    "@types/node": "20.x",
+    "@typescript-eslint/eslint-plugin": "^8.25.0",
+    "@typescript-eslint/parser": "^8.25.0",
+    "eslint": "^9.21.0",
+    "typescript": "^5.7.3",
+    "ts-loader": "^9.5.2",
+    "webpack": "^5.98.0",
+    "webpack-cli": "^6.0.1",
+    "@vscode/test-cli": "^0.0.10",
+    "@vscode/test-electron": "^2.4.1"
+  }
+}

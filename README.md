@@ -1,81 +1,81 @@
-# Code Mate - VS Code Extension & ChatBot Application
-To reduce the load in your PC just run the normal lama version, we will run the finetuned model at the Finals
+# Code Mate 🤖
+
+An **agentic VS Code extension** powered by local LLMs (Ollama + Llama 3.2). Code Mate provides intelligent coding agents that debug, generate, explain, review, and refactor your code — all running locally, no cloud API keys needed.
+
+## Features
+
+| Agent | Shortcut | Description |
+|-------|----------|-------------|
+| 💬 **Chat** | `Ctrl+Shift+M` | Free-form coding assistant |
+| 🔍 **Explain** | `Ctrl+Shift+E` | Explains selected code or full file |
+| 🐛 **Debug** | `Ctrl+Shift+B` | Reads VS Code diagnostics → suggests fixes |
+| ⚡ **Generate** | `Ctrl+Shift+G` | Generates code from natural language |
+| 📋 **Review** | Right-click | Code review with severity ratings |
+| ♻️ **Refactor** | Right-click | Suggests cleaner alternatives |
+
+### Key Capabilities
+
+- **Streaming responses** — word-by-word, like ChatGPT
+- **Context-aware** — reads your active file, selection, and VS Code diagnostics
+- **Right-click context menu** — Code Mate submenu with all agents
+- **Code block actions** — Copy / Insert at Cursor
+- **Model picker** — switch between any Ollama model
+- **Status bar** — shows connection state + active model
+- **Fully local** — no data leaves your machine
 
 ## Prerequisites
-Ensure you have the following installed:
-- **Olama** (Required for chatbot functionality)
-- **Python 3.10+** (Check with `python --version`)
-- **pip** (Check with `pip --version`)
-- **Node.js & npm** (Check with `node -v` and `npm -v`)
-- **VS Code** with `vsce` (VS Code Extension Manager)
 
-## 1. Setting Up the Flask Backend
-### Step 1: Clone the Repository
-```sh
-git clone <your-repo-url>
-cd your-repo
-```
+1. [Ollama](https://ollama.com/) installed and running
+2. A model pulled (e.g. `ollama pull llama3.2`)
 
-### Step 2: Install Dependencies
-```sh
-pip install -r requirements.txt
-```
+## Getting Started
 
-### Step 3: Run the Flask Server
-```sh
-python app.py
-```
-The Flask server will run at **http://127.0.0.1:5000**.
+```bash
+# 1. Clone the repo
+git clone https://github.com/Aaryan7117/code-mate-gdsc.git
 
----
-
-## 2. Running the Frontend
-- All necessary code is already included in **index.html**.
-- Simply open the file in a browser or integrate it with the Flask backend.
-
----
-
-## 3. Setting Up the VS Code Extension
-### Step 1: Navigate to the Extension Directory
-```sh
-cd vscode-extension
-```
-
-### Step 2: Install Dependencies
-```sh
+# 2. Install dependencies
+cd code-mate-gdsc/vs-extension-code-mate/code-mate
 npm install
-```
 
-### Step 3: Build the Extension
-```sh
+# 3. Build
 npm run build
+
+# 4. Open in VS Code and press F5 to launch
+code .
 ```
 
-### Step 4: Run the Extension
-Open VS Code, add the extension code, and follow the build process above.
+## Configuration
 
- Click on F5 and a new window will pop up click 
- ```CTRL+SHIFT+P```
- Select Code Mate and you can use the extension
+Open VS Code Settings → search "Code Mate":
 
----
+| Setting | Default | Description |
+|---------|---------|-------------|
+| `codeMate.ollamaUrl` | `http://localhost:11434` | Ollama API endpoint |
+| `codeMate.model` | `llama3.2` | Model to use |
+| `codeMate.temperature` | `0.3` | Response creativity (0–2) |
+| `codeMate.maxTokens` | `4096` | Max response length |
 
-## 4. Running the Full Application
-1. **Install Olama** (Required for chatbot functionality)
-2. **Start the Flask server** (`python gdsc.py`)
-3. **Open VS Code and test the extension**
-4. The extension should communicate with Flask and return AI-generated responses.
+## Architecture
 
----
+```
+code-mate/
+├── src/
+│   ├── extension.ts              ← Entry point
+│   ├── ollamaClient.ts           ← Ollama HTTP API client (streaming)
+│   ├── ChatViewProvider.ts       ← Sidebar webview + chat UI
+│   ├── agents/
+│   │   └── agentManager.ts       ← Agent orchestration
+│   └── context/
+│       ├── workspaceContext.ts    ← Gathers editor context
+│       └── promptBuilder.ts      ← Agent-specific prompts
+├── resources/
+│   └── icon.svg                  ← Activity bar icon
+├── package.json
+├── tsconfig.json
+└── webpack.config.js
+```
 
-## 5. Debugging Issues
-### Flask Issues
-- Ensure Flask is running on **port 5000**.
-- Check the terminal for errors and fix missing dependencies.
+## License
 
-### VS Code Extension Issues
-- Run `npm install` again if dependencies are missing.
-- Restart VS Code after installing the extension.
-
-Enjoy Folks -- 6th Sense Coders ;)
-
+MIT
